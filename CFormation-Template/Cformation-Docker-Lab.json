@@ -1,0 +1,185 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "CloudFormation template to create a Build-Host with Ansible, AWS-CLI and Boto to run Ansible-AWS tasks",
+
+  "Parameters" : {
+    
+    "ServerAccess" : {
+      "Description" : "CIDR IP range allowed to login to the Contrail instance",
+      "Type" : "String",
+      "MinLength": "9",
+      "MaxLength": "18",
+      "Default" : "0.0.0.0/0",
+      "AllowedPattern" : "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+      "ConstraintDescription" : "must be a valid CIDR range of the form x.x.x.x/x."
+    }
+    
+  },
+
+  "Mappings" : {
+    "SubnetConfig" : {
+      "VPC"     : { "CIDR" : "10.48.0.0/16" },
+      "DockerNetwork"  : { "CIDR" : "10.48.0.0/24" }
+    },
+    
+    "RegionMap" : {
+      "us-west-1"      : { "AMI" : "ami-efd0428f" },
+      "us-west-2"      : { "AMI" : "ami-efd0428f" },
+      "eu-west-1"      : { "AMI" : "ami-efd0428f" }
+    }
+  },
+
+  "Resources" : {
+
+    "VPC" : {
+      "Type" : "AWS::EC2::VPC",
+      "Description" : "Creating a VPC",
+      "Properties" : {
+        "CidrBlock" : { "Fn::FindInMap" : [ "SubnetConfig", "VPC", "CIDR" ]},
+        "Tags" : [
+          { "Key" : "Application", "Value" : { "Ref" : "AWS::StackName" } },
+          { "Key" : "Network", "Value" : "Public" },
+    { "Key" : "Name", "Value" : "DockerVPC" }
+        ]
+      }
+    },
+
+    "DockerNetwork" : {
+      "DependsOn" : ["VPC"],
+      "Type" : "AWS::EC2::Subnet",
+      "Description" : "Creating a Subnet from VPC",
+      "Properties" : {
+        "VpcId" : { "Ref" : "VPC" },
+        "CidrBlock" : { "Fn::FindInMap" : [ "SubnetConfig", "DockerNetwork", "CIDR" ]},
+        "Tags" : [
+          { "Key" : "Application", "Value" : { "Ref" : "AWS::StackName" } },
+          { "Key" : "Network", "Value" : "DockerNetwork" },
+    { "Key" : "Name", "Value" : "DockerNetwork" }
+        ]
+      }
+    },
+
+    "InternetGateway" : {
+      "Type" : "AWS::EC2::InternetGateway",
+      "Description" : "Creating a InternetGW to allow traffic out to internet",
+      "Properties" : {
+        "Tags" : [
+          { "Key" : "Application", "Value" : { "Ref" : "AWS::StackName" } },
+          { "Key" : "Network", "Value" : "Network" }
+        ]
+      }
+    },
+
+    "GatewayToInternet" : {
+       "DependsOn" : ["VPC", "InternetGateway"],
+       "Type" : "AWS::EC2::VPCGatewayAttachment",
+       "Properties" : {
+         "VpcId" : { "Ref" : "VPC" },
+         "InternetGatewayId" : { "Ref" : "InternetGateway" }
+       }
+    },
+
+    "NetworkRouteTable" : {
+      "DependsOn" : ["VPC"],
+      "Type" : "AWS::EC2::RouteTable",
+      "Properties" : {
+        "VpcId" : { "Ref" : "VPC" },
+        "Tags" : [
+          { "Key" : "Application", "Value" : { "Ref" : "AWS::StackName" } },
+          { "Key" : "Network", "Value" : "Network" }
+        ]
+      }
+    },
+
+    "NetworkRoute" : {
+      "DependsOn" : ["NetworkRouteTable", "InternetGateway"],
+      "Type" : "AWS::EC2::Route",
+      "Properties" : {
+        "RouteTableId" : { "Ref" : "NetworkRouteTable" },
+        "DestinationCidrBlock" : "0.0.0.0/0",
+        "GatewayId" : { "Ref" : "InternetGateway" }
+      }
+    },
+
+    "DockerNetworkRouteTableAssociation" : {
+      "DependsOn" : ["DockerNetwork", "NetworkRouteTable"],
+      "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties" : {
+        "SubnetId" : { "Ref" : "DockerNetwork" },
+        "RouteTableId" : { "Ref" : "NetworkRouteTable" }
+      }
+    },
+  
+    "EC2SecurityGroup" : {
+      "DependsOn" : ["VPC"],
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription" : "EC2 Security Group",
+        "VpcId" : { "Ref" : "VPC" },
+   "SecurityGroupIngress" : [{
+            "IpProtocol" : "tcp",
+            "FromPort" : "0",
+            "ToPort" : "65535",
+            "CidrIp" : { "Ref" : "ServerAccess" }
+        },{
+            "IpProtocol" : "icmp",
+            "FromPort" : "-1",
+            "ToPort" : "-1",
+            "CidrIp" : { "Ref" : "ServerAccess" }
+        },{
+            "IpProtocol" : "udp",
+            "FromPort" : "0",
+            "ToPort" : "65535",
+            "CidrIp" : { "Ref" : "ServerAccess" }
+        }],
+  "Tags" : [
+    { "Key" : "Name", "Value" : "EC2 Security Group" }
+        ]
+      }
+    },
+    
+    "DockerLab" : {
+      "DependsOn" : ["DockerNetwork"],
+      "Type" : "AWS::EC2::Instance",
+      "Properties" : {
+        "InstanceType" : "t2.large",
+        "SourceDestCheck" : "false",
+        "ImageId" : { "Fn::FindInMap" : [ "RegionMap", { "Ref" : "AWS::Region" }, "AMI" ]},
+  "NetworkInterfaces" : [{
+          "GroupSet"                 : [{ "Ref" : "EC2SecurityGroup" }],
+          "AssociatePublicIpAddress" : "true",
+          "DeviceIndex"              : "0",
+          "DeleteOnTermination"      : "true",
+          "SubnetId"                 : { "Ref" : "DockerNetwork" }
+        }],
+  "Tags" : [
+    { "Key" : "Name", "Value" : "Docker-Lab" }
+        ],
+  "UserData" : { "Fn::Base64" : { "Fn::Join" : ["", [
+    "#!/bin/bash\n",
+      "export DEBIAN_FRONTEND=noninteractive\n",
+      "sudo cp /home/ubuntu/.ssh/authorized_keys /root/.ssh/\n",
+      "sudo -s <<EOF\n",
+      "sed -i 's/^PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config\n",
+      "sed -i 's/^StrictModes.*/#StrictModes/g' /etc/ssh/sshd_config\n",
+      "sed -i 's/^PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config\n",
+      "echo 'root:contrail1' | chpasswd\n",
+      "systemctl restart sshd\n",
+      "hostnamectl set-hostname docker-lab\n",
+      "echo '127.0.0.1 master'>>/etc/hosts\n",
+      "apt-get update\n",
+      "sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D\n",
+      "sudo apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'\n",
+      "sudo apt-get update\n",
+      "apt-cache policy docker-engine\n",
+      "sudo apt-get install -y docker-engine\n",
+      "apt-get -y install git\n",
+      "sudo apt-get install docker-compose\n",
+      "EOF\n"
+  ]]}}
+      }
+    },
+
+  }
+}
