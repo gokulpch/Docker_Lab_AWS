@@ -29,9 +29,9 @@ Docker Sandbox on AWS
  
     ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws3.png)
     
-5. Provide a “Stack Name” and “KeyPair” is optional (the template enable root access where there is no need of any key to login once the instance is available) and select “Next”
+5. Provide a “Stack Name” and “KeyPair” is not needed (the template enable root access where there is no need of any key to login once the instance is available) and select “Next”
 
-    ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws4.png)
+    ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws-docker-1.png)
     
 6. As we are not enabling any IAM access or select “Next” and “Create” in the review page to initiate the stack.
 
