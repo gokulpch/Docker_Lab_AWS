@@ -29,7 +29,7 @@ Docker Sandbox on AWS
  
     ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws3.png)
     
-5. Provide a “Stack Name” and “KeyPair” is not needed (the template enable root access where there is no need of any key to login once the instance is available) and select “Next”
+5. Provide a “Stack Name” and “KeyPair” is not needed (the template enable root access where there is no need of any key to    login once the instance is available) and select “Next”
 
     ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws-docker-1.png)
     
@@ -43,9 +43,9 @@ Docker Sandbox on AWS
 
     ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws7.png)
      
-8. Once the stack creation is complete then proceed to the EC2 (from “services” and select the “running instances”)dashboard      to get the public_ip of the instance. Select the instance with the name that have been provided in step.5 and you can get      the public_ip as shown below.
+8. Once the stack creation is complete then proceed to the EC2 (from “services” and select the “running instances”)dashboard    to get the public_ip of the instance. Select the instance with the name **"Docker-Lab"** and you can get the public_ip as    shown below.
 
-    ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws8.png)
+    ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws-docker-2.png)
     
 9. Use “root@<public_ip>”, “Password: contrail1” to access the instance from the local terminal
 
