@@ -47,7 +47,7 @@ Docker Sandbox on AWS
 
     ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws-docker-2.png)
     
-9. Use “root@<public_ip>”, “Password: contrail1” to access the instance from the local terminal
+9. Use “root@<public_ip>”, “Password: contrail1” to access the instance (docker-machine) from the local terminal
 
 #### License
 
