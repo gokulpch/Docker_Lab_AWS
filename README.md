@@ -41,7 +41,7 @@ Docker Sandbox on AWS
 
 7. Watch for the stack to complete
 
-    ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws7.png)
+    ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws-docker-4.png)
      
 8. Once the stack creation is complete then proceed to the EC2 (from “services” and select the “running instances”)dashboard    to get the public_ip of the instance. Select the instance with the name **"Docker-Lab"** and you can get the public_ip as    shown below.
 
