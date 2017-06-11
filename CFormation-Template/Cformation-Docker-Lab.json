@@ -181,7 +181,7 @@
       "echo 'root:contrail1' | chpasswd\n",
       "systemctl restart sshd\n",
       "hostnamectl set-hostname docker-lab\n",
-      "echo '127.0.0.1 master'>>/etc/hosts\n",
+      "echo '127.0.0.1 docker-lab'>>/etc/hosts\n",
       "apt-get update\n",
       "sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D\n",
       "sudo apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'\n",
@@ -190,7 +190,6 @@
       "sudo apt-get install -y docker-engine\n",
       "apt-get -y install git\n",
       "sudo apt-get install docker-compose\n",
-      "cd /root\n",
       "sudo git clone https://github.com/gokulpch/Docker_Lab_AWS.git\n"
   ]]}}
       }
