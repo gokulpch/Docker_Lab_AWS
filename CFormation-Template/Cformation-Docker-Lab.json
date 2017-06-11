@@ -191,7 +191,7 @@
       "apt-get -y install git\n",
       "sudo apt-get install docker-compose\n",
       "cd /root\n",
-      "sudo git clone https://github.com/gokulpch/Docker_Lab_AWS.git"
+      "sudo git clone https://github.com/gokulpch/Docker_Lab_AWS.git\n"
   ]]}}
       }
     },
