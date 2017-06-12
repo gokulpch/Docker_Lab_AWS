@@ -191,6 +191,7 @@
       "apt-cache policy docker-engine\n",
       "sudo apt-get install -y docker-engine\n",
       "sudo apt-get install docker-compose\n",
+      "sudo apt-get install docker-compose\n",
       "sudo apt-get install tree\n"
   ]]}}
       }
