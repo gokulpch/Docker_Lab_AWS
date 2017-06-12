@@ -32,3 +32,15 @@ eb_1             php-fpm -d                        0:32774->8080/
 ```bash
 docker-compose scale web=5
 ```
+
+#### Test and Scale Containers
+
+Open a new terminal
+
+```
+###Curling from the command line curl 0.0.0.0
+
+Hello World!
+I have been seen 1 times.
+My Host name is 29c69c89417c
+```
