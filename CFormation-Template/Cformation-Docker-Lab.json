@@ -186,11 +186,11 @@
       "sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D\n",
       "sudo apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'\n",
       "sudo apt-get update\n",
+      "apt-get -y install git\n",
+      "cd /root/.; sudo git clone https://github.com/gokulpch/Docker_Lab_AWS.git\n",
       "apt-cache policy docker-engine\n",
       "sudo apt-get install -y docker-engine\n",
-      "apt-get -y install git\n",
-      "sudo apt-get install docker-compose\n",
-      "sudo git clone https://github.com/gokulpch/Docker_Lab_AWS.git\n"
+      "sudo apt-get install docker-compose\n"
   ]]}}
       }
     },
