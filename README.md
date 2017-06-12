@@ -13,41 +13,45 @@ Docker Sandbox on AWS
 
 ## Usage
 
-1. Download the CloudFormation template from the location below to the local machine
+1. 1. Choose the Region from AWS web portal. For consistency and mapping of AMI's used in the template select **US-West(Oregon)**
+
+    ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws-16.png)
+    
+2. Download the CloudFormation template from the location below to the local machine
 
    wget https://raw.githubusercontent.com/gokulpch/Docker_Lab_AWS/master/CFormation-Template/Cformation-Docker-Lab.json#
 
-2. Select CloudFormation service from AWS web portal 
+3. Select CloudFormation service from AWS web portal 
 
     ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws1.png)
 
-3. Select “Create Stack” Option
+4. Select “Create Stack” Option
  
     ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws2.png)
     
-4. Select Upload a template and choose the file downloaded above
+5. Select Upload a template and choose the file downloaded above
  
     ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws3.png)
     
-5. Provide a “Stack Name” and “KeyPair” is not needed (the template enable root access where there is no need of any key to    login once the instance is available) and select “Next”
+6. Provide a “Stack Name” and “KeyPair” is not needed (the template enable root access where there is no need of any key to    login once the instance is available) and select “Next”
 
     ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws-docker-1.png)
     
-6. As we are not enabling any IAM access or select “Next” and “Create” in the review page to initiate the stack.
+7. As we are not enabling any IAM access or select “Next” and “Create” in the review page to initiate the stack.
 
     ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws5.png)
     
     ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws6.png)
 
-7. Watch for the stack to complete
+8. Watch for the stack to complete
 
     ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws-docker-4.png)
      
-8. Once the stack creation is complete then proceed to the EC2 (from “services” and select the “running instances”)dashboard    to get the public_ip of the instance. Select the instance with the name **"Docker-Lab"** and you can get the public_ip as    shown below.
+9. Once the stack creation is complete then proceed to the EC2 (from “services” and select the “running instances”)dashboard    to get the public_ip of the instance. Select the instance with the name **"Docker-Lab"** and you can get the public_ip as    shown below.
 
     ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws-docker-2.png)
     
-9. Use “root@<public_ip>”, “Password: contrail1” to access the instance (docker-machine) from the local terminal
+10. Use “root@<public_ip>”, “Password: contrail1” to access the instance (docker-machine) from the local terminal
 
 #### License
 
