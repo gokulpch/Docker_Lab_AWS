@@ -190,7 +190,8 @@
       "cd /root/.; sudo git clone https://github.com/gokulpch/Docker_Lab_AWS.git\n",
       "apt-cache policy docker-engine\n",
       "sudo apt-get install -y docker-engine\n",
-      "sudo apt-get install docker-compose\n"
+      "sudo apt-get install docker-compose\n",
+      "sudo apt-get install tree\n"
   ]]}}
       }
     },
