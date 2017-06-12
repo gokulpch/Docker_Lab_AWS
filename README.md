@@ -13,7 +13,7 @@ Docker Sandbox on AWS
 
 ## Usage
 
-1. 1. Choose the Region from AWS web portal. For consistency and mapping of AMI's used in the template select **US-West(Oregon)**
+1. Choose the Region from AWS web portal. For consistency and mapping of AMI's used in the template select **US-West(Oregon)**
 
     ![alt text](https://github.com/gokulpch/Ansible_Base_Hosts_CloudFormation-Templates/blob/master/img/aws-16.png)
     
